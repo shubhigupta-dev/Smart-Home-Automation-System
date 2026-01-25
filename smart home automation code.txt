@@ -1,0 +1,139 @@
+/*
+
+*/
+String inputs; //String declaration. Stores the received Bluetooth command
+//Relay pins definitions. Assign Arduino digital pins to each relay
+#define relay1 2 //Connect relay1 to pin 9
+#define relay2 3 //Connect relay2 to pin 8
+#define relay3 4 //Connect relay3 to pin 7
+#define relay4 5 //Connect relay4 to pin 6
+#define relay5 6 //Connect relay5 to pin 5
+#define relay6 7 //Connect relay6 to pin 4
+#define relay7 8 //Connect relay7 to pin 3
+#define relay8 9 //Connect relay8 to pin 2
+
+//Setup function. Runs only once when Arduino powers ON or RESET
+void setup()
+{
+Serial.begin(9600); //Serial Communication Initialization. Set baud rate for communicating with phone. Enables Arduino to receive data from phone. Definition: Baud rate is the speed at which data is transmitted in serial communication, measured in bits per second (bps).
+
+//Configure relay pins as OUTPUT. Allows Arduino to control relays
+pinMode(relay1, OUTPUT); //Set relay1 as an output
+pinMode(relay2, OUTPUT); //Set relay2 as an output
+pinMode(relay3, OUTPUT); //Set relay1 as an output
+pinMode(relay4, OUTPUT); //Set relay2 as an output
+pinMode(relay5, OUTPUT); //Set relay1 as an output
+pinMode(relay6, OUTPUT); //Set relay2 as an output
+pinMode(relay7, OUTPUT); //Set relay1 as an output
+pinMode(relay8, OUTPUT); //Set relay2 as an output
+//Turning OFF all relays initially. Prevents accidental switching
+digitalWrite(relay1, LOW); //Switch relay1 off
+digitalWrite(relay2, LOW); //Swtich relay2 off
+digitalWrite(relay3, LOW); //Switch relay1 off
+digitalWrite(relay4, LOW); //Switch relay2 off
+digitalWrite(relay5, LOW); //Switch relay1 off
+digitalWrite(relay6, LOW); //Swtich relay2 off
+digitalWrite(relay7, LOW); //Switch relay1 off
+digitalWrite(relay8, LOW); //Swtich relay2 off
+}
+
+//Loop function runs continuously as long as Arduino is powered
+void loop()
+{
+while(Serial.available()) //Check if Bluetooth data is available and returns no. of bytes received
+{
+delay(10); //Delay to make it stable and it prevents data corruption
+char c = Serial.read(); //Conduct a serial read. Reads one character from bluetooth
+if (c == '#'){
+break; // # is used as end of command. Stops reading when # detected.
+}
+inputs += c; //Appending character to string Means inputs = inputs + c
+}
+
+if (inputs.length() >0) //Checking if input exists. Ensures some data is received. Prevents empty command processing
+{
+Serial.println(inputs); //Print received command on serial monitor
+
+//Note: Relay logic depends on relay module type (active LOW)
+//Control logic for Relay 1
+if(inputs == "A")
+{ 
+digitalWrite(relay1, LOW);
+}
+else if(inputs == "a")
+{
+digitalWrite(relay1, HIGH);
+}
+
+//Control logic for Relay 2
+else if(inputs == "B")
+{
+digitalWrite(relay2, LOW);
+}
+else if(inputs == "b")
+{
+digitalWrite(relay2, HIGH);
+}
+
+//Control logic for Relay 3
+else if(inputs == "C")
+{ 
+digitalWrite(relay3, LOW);
+}
+else if(inputs == "c")
+{
+digitalWrite(relay3, HIGH);
+}
+
+//Control logic for Relay 4
+else if(inputs == "D")
+{
+digitalWrite(relay4, LOW);
+}
+else if(inputs == "d")
+{
+digitalWrite(relay4, HIGH);
+}
+
+//Control logic for Relay 5
+else if(inputs == "E")
+{ 
+digitalWrite(relay5, LOW);
+}
+else if(inputs == "e")
+{
+digitalWrite(relay5, HIGH);
+}
+
+//Control logic for Relay 6
+else if(inputs == "F")
+{
+digitalWrite(relay6, LOW);
+}
+else if(inputs == "f")
+{
+digitalWrite(relay6, HIGH);
+}
+
+//Control logic for Relay 7
+else if(inputs == "G")
+{ 
+digitalWrite(relay7, LOW);
+}
+else if(inputs == "g")
+{
+digitalWrite(relay7, HIGH);
+}
+
+//Control logic for Relay 8
+else if(inputs == "H")
+{
+digitalWrite(relay8, LOW);
+}
+else if(inputs == "h")
+{
+digitalWrite(relay8, HIGH);
+}
+inputs=""; //Clears old command. Prepares for next input
+}
+}
